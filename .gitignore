@@ -1,0 +1,66 @@
+# -----------------------------
+# Dependencies / package managers
+# -----------------------------
+node_modules/
+.pnp.*
+.pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+npm-debug.log*
+package-lock.json#
+# (keep your lockfile committed; the line above is a no-op comment)
+
+# -----------------------------
+# Next.js / build artifacts
+# -----------------------------
+.next/
+out/
+build/
+.turbo/
+.vercel/
+coverage/
+*.tsbuildinfo
+.eslintcache
+
+# -----------------------------
+# OS / editor junk
+# -----------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+.history/
+
+# -----------------------------
+# Env & secrets
+# (never commit secrets; provide .env.example instead)
+# -----------------------------
+.env
+.env.*
+!.env.example
+
+# -----------------------------
+# Logs & temp
+# -----------------------------
+*.log
+logs/
+tmp/
+.cache/
+.parcel-cache/
+
+# -----------------------------
+# Supabase / tooling
+# -----------------------------
+# If you later use the Supabase CLI, it creates a local folder.
+# Keep migrations & config you want, but ignore temp/state.
+supabase/.temp/
+supabase/.branches/
+supabase/.cache/
+
+# -----------------------------
+# Sentry
+# -----------------------------
+.sentryclirc
+!.sentryclirc.example
