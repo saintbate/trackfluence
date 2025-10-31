@@ -1,5 +1,6 @@
 "use client";
-import { signIn } from "@/lib/auth-client";
+
+import { signIn } from "next-auth/react";
 
 export default function SignInPage() {
   return (
@@ -16,4 +17,3 @@ export default function SignInPage() {
     </main>
   );
 }
-

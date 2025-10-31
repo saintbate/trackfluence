@@ -1,39 +1,34 @@
 "use client";
-import useSWR from "swr";
-const fetcher = (url: string) => fetch(url).then(r => r.json());
 
-export default function OverviewKpis({ brandId, from, to }:{
-  brandId: string; from: string; to: string
-}) {
-  const { data, error, isLoading } = useSWR(
-    `/api/overview?brandId=${brandId}&from=${from}&to=${to}`, fetcher
-  );
-  if (isLoading) return <div>Loading…</div>;
-  if (error || data?.error) return <div>Error: {error?.message || data?.error}</div>;
+type OverviewKpisProps = {
+  totalSpend: number;
+  totalRevenue: number;
+  roas: number;
+  cac: number;
+  activeCampaigns: number;
+};
 
-  // Check for empty data
-  if (!data.overview || data.overview.length === 0) {
-    return (
-      <div className="rounded-xl border p-8 text-center text-slate-500">
-        No data available for this date range
-      </div>
-    );
-  }
+const Card = ({ label, value }: { label: string; value: string }) => (
+  <div className="rounded-xl border p-4 shadow-sm">
+    <div className="text-sm text-slate-500">{label}</div>
+    <div className="mt-1 text-2xl font-semibold">{value}</div>
+  </div>
+);
 
-  const o = data.overview[0];
-  const Card = ({ label, value }:{label:string; value:string}) => (
-    <div className="rounded-xl border p-4 shadow-sm">
-      <div className="text-sm text-slate-500">{label}</div>
-      <div className="mt-1 text-2xl font-semibold">{value}</div>
-    </div>
-  );
-
+export default function OverviewKpis({
+  totalSpend,
+  totalRevenue,
+  roas,
+  cac,
+  activeCampaigns,
+}: OverviewKpisProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <Card label="Revenue" value={`$${Number(o.total_revenue).toFixed(2)}`} />
-      <Card label="Orders"  value={`${o.total_orders}`} />
-      <Card label="Spend"   value={`$${Number(o.total_spend).toFixed(2)}`} />
-      <Card label="ROI"     value={o.roi_pct === null ? "—" : `${o.roi_pct}%`} />
+    <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+      <Card label="Total Revenue" value={`$${totalRevenue.toFixed(2)}`} />
+      <Card label="Total Spend" value={`$${totalSpend.toFixed(2)}`} />
+      <Card label="ROAS" value={roas > 0 ? `${roas.toFixed(2)}×` : "—"} />
+      <Card label="CAC" value={`$${cac.toFixed(2)}`} />
+      <Card label="Active Campaigns" value={`${activeCampaigns}`} />
     </div>
   );
 }
