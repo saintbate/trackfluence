@@ -1,7 +1,5 @@
-export { auth as middleware } from "@/auth";
-
+// middleware.ts
+export { default } from "next-auth/middleware";
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!signin|api/auth|_next|favicon.ico).*)"],
 };
-
-

@@ -2,13 +2,13 @@
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
-type ChartRow = {
-  handle: string;
+type RevenueByInfluencerPoint = {
+  name: string;
   revenue: number;
 };
 
 type RevenueByInfluencerChartProps = {
-  rows: ChartRow[];
+  points: RevenueByInfluencerPoint[];
 };
 
 // Color palette for bars
@@ -22,15 +22,15 @@ const COLORS = [
   "#f97316", // orange-500
 ];
 
-export default function RevenueByInfluencerChart({ rows }: RevenueByInfluencerChartProps) {
-  if (!rows || rows.length === 0) {
+export default function RevenueByInfluencerChart({ points }: RevenueByInfluencerChartProps) {
+  if (!points || points.length === 0) {
     return null;
   }
 
   // Format data for recharts
-  const chartData = rows.map((row) => ({
-    handle: row.handle,
-    revenue: Number(row.revenue),
+  const chartData = points.map((point) => ({
+    name: point.name,
+    revenue: point.revenue,
   }));
 
   // Custom tooltip
@@ -38,7 +38,7 @@ export default function RevenueByInfluencerChart({ rows }: RevenueByInfluencerCh
     if (active && payload && payload.length) {
       return (
         <div className="bg-white px-4 py-2 rounded-lg shadow-lg border border-slate-200">
-          <p className="font-semibold text-slate-900">{payload[0].payload.handle}</p>
+          <p className="font-semibold text-slate-900">{payload[0].payload.name}</p>
           <p className="text-sm text-slate-600">
             Revenue: <span className="font-medium text-slate-900">${payload[0].value.toFixed(2)}</span>
           </p>
@@ -58,7 +58,7 @@ export default function RevenueByInfluencerChart({ rows }: RevenueByInfluencerCh
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
           <XAxis
-            dataKey="handle"
+            dataKey="name"
             angle={-45}
             textAnchor="end"
             height={80}
