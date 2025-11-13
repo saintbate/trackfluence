@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { GA_ENABLED, track } from "@/lib/ga";
 
 export default function ExportCsvButton({
   data,
@@ -41,6 +42,13 @@ export default function ExportCsvButton({
     if (userTier !== "PRO") {
       setShowUpgradeModal(true);
       return;
+    }
+
+    // Analytics
+    if (GA_ENABLED) {
+      try {
+        void track("export_csv_clicked", { table: "influencers" });
+      } catch {}
     }
 
     // Extract headers from the keys of the first object

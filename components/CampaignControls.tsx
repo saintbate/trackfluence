@@ -40,23 +40,22 @@ export default function CampaignControls({
     fetcher
   );
 
-  // When campaigns load (or selection changes), default dates to the campaign window
-  useEffect(() => {
-    if (!campaigns.length || allCampaigns) return;
-    const first = campaigns[0];
-    setCampaignId(first.id);
-    if (!initialFrom) setFrom(first.start_date?.slice(0, 10) ?? "");
-    if (!initialTo) setTo(first.end_date?.slice(0, 10) ?? "");
-  }, [campaigns]); // eslint-disable-line
 
-  // When "All campaigns" is toggled on and date bounds are loaded
+  // Derive firstId so the effect is stable
+  const firstId = campaigns.length ? campaigns[0].id : null;
+
+  // Initialize selection once when campaigns arrive
   useEffect(() => {
-    if (allCampaigns && dateBounds) {
-      if (dateBounds.min) setFrom(dateBounds.min);
-      if (dateBounds.max) setTo(dateBounds.max);
-      setCampaignId(null); // Clear campaign selection in "All campaigns" mode
-    }
-  }, [allCampaigns, dateBounds]);
+    if (!firstId) return;
+    setCampaignId((prev) => prev ?? firstId);
+  }, [firstId]);
+
+  // Initialize date range from bounds
+  useEffect(() => {
+    if (!dateBounds) return;
+    setFrom((prev) => prev ?? (dateBounds.min?.slice(0, 10) ?? ""));
+    setTo((prev) => prev ?? (dateBounds.max ?? ""));
+  }, [dateBounds]);
 
   // Notify parent whenever inputs change
   useEffect(() => {
