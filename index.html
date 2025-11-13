@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Trackfluence – Influencer Performance Analytics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Trackfluence helps brands measure creator performance, campaign ROAS, and influencer revenue across platforms."
+    />
+
+    <!-- Simple styling -->
+    <style>
+      :root {
+        color-scheme: dark light;
+        --bg: #05060a;
+        --bg-soft: #0b0d14;
+        --accent: #f97316;
+        --accent-soft: rgba(249, 115, 22, 0.1);
+        --text: #f9fafb;
+        --muted: #9ca3af;
+        --border: #1f2933;
+        --radius-lg: 18px;
+        --radius-sm: 10px;
+        --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.45);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+          "Inter", sans-serif;
+        background: radial-gradient(circle at top, #111827 0, #020617 55%);
+        color: var(--text);
+      }
+
+      .page {
+        min-height: 100vh;
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 32px 20px 48px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo-pill {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: radial-gradient(circle at 20% 0, #38bdf8 0, #1e40af 45%, #020617 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 25px rgba(15, 23, 42, 0.85);
+      }
+
+      .logo-pill span {
+        font-size: 20px;
+        font-weight: 700;
+        color: white;
+      }
+
+      .brand-text-title {
+        font-weight: 650;
+        letter-spacing: 0.02em;
+      }
+
+      .brand-text-sub {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      nav a {
+        font-size: 13px;
+        text-decoration: none;
+        color: var(--muted);
+        margin-left: 18px;
+      }
+
+      nav a:hover {
+        color: var(--text);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2.6fr);
+        gap: 28px;
+      }
+
+      @media (max-width: 800px) {
+        .hero {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+
+      .hero-copy {
+        padding: 24px 22px;
+        border-radius: var(--radius-lg);
+        background: linear-gradient(
+              145deg,
+              rgba(15, 23, 42, 0.95),
+              rgba(15, 23, 42, 0.98)
+            ),
+          radial-gradient(circle at top left, rgba(56, 189, 248, 0.1), transparent 55%);
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .hero-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        font-size: 11px;
+        color: var(--muted);
+        margin-bottom: 14px;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: #22c55e;
+        box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: 30px;
+        line-height: 1.1;
+      }
+
+      .hero-sub {
+        font-size: 14px;
+        color: var(--muted);
+        max-width: 38rem;
+        margin-bottom: 18px;
+      }
+
+      .hero-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px 14px;
+        margin-bottom: 20px;
+        padding: 0;
+        list-style: none;
+      }
+
+      .hero-list li {
+        font-size: 13px;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+
+      .hero-list li span {
+        color: #a5b4fc;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .btn-primary {
+        border: none;
+        border-radius: 999px;
+        padding: 9px 16px;
+        background: linear-gradient(135deg, #f97316, #fb923c);
+        color: #0b1120;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: default;
+        box-shadow: 0 10px 28px rgba(248, 113, 113, 0.35);
+      }
+
+      .btn-ghost {
+        border-radius: 999px;
+        padding: 8px 15px;
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        background: rgba(15, 23, 42, 0.8);
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .hero-note {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+
+      .card {
+        border-radius: var(--radius-lg);
+        padding: 18px 18px 16px;
+        background: radial-gradient(circle at top right, #1d283a 0, #020617 55%);
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+
+      .card-title {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .chip {
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: rgba(22, 163, 74, 0.15);
+        border: 1px solid rgba(34, 197, 94, 0.4);
+        font-size: 11px;
+        color: #4ade80;
+      }
+
+      .metric-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 6px;
+      }
+
+      .metric-label {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .metric-value {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .metric-value.subtle {
+        font-weight: 500;
+        color: #a5b4fc;
+      }
+
+      .sparkline {
+        margin-top: 12px;
+        height: 64px;
+        border-radius: var(--radius-sm);
+        background: linear-gradient(
+          180deg,
+          rgba(15, 23, 42, 0.8),
+          rgba(15, 23, 42, 0.3)
+        );
+        border: 1px solid rgba(55, 65, 81, 0.8);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .sparkline-line {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(96, 165, 250, 0.1), transparent);
+        mask-image: linear-gradient(
+          135deg,
+          transparent 0,
+          black 25%,
+          black 70%,
+          transparent 100%
+        );
+      }
+
+      .spark-dot {
+        position: absolute;
+        right: 14%;
+        top: 26%;
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: #60a5fa;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.4);
+      }
+
+      .bottom {
+        display: grid;
+        grid-template-columns: minmax(0, 1.6fr) minmax(0, 2.4fr);
+        gap: 22px;
+      }
+
+      @media (max-width: 800px) {
+        .bottom {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      .bottom-card {
+        border-radius: var(--radius-lg);
+        background: rgba(15, 23, 42, 0.96);
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        padding: 16px 18px 14px;
+      }
+
+      .bottom-card h2 {
+        font-size: 14px;
+        margin: 0 0 6px;
+      }
+
+      .bottom-card p {
+        font-size: 12px;
+        color: var(--muted);
+        margin: 0 0 10px;
+      }
+
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .pill {
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 11px;
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        color: var(--muted);
+      }
+
+      footer {
+        margin-top: 18px;
+        border-top: 1px solid rgba(31, 41, 55, 0.9);
+        padding-top: 12px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        color: var(--muted);
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page">
+      <header>
+        <div class="brand">
+          <div class="logo-pill"><span>T</span></div>
+          <div>
+            <div class="brand-text-title">Trackfluence</div>
+            <div class="brand-text-sub">Influencer performance analytics</div>
+          </div>
+        </div>
+        <nav>
+          <a href="#overview">Overview</a>
+          <a href="#for-brands">For brands</a>
+          <a href="#status">Status</a>
+        </nav>
+      </header>
+
+      <main id="overview" class="hero">
+        <!-- Left: copy -->
+        <section class="hero-copy">
+          <div class="hero-kicker">
+            <div class="dot"></div>
+            <span>Private alpha • Not yet publicly available</span>
+          </div>
+
+          <h1>See which creators actually drive revenue.</h1>
+
+          <p class="hero-sub">
+            Trackfluence is a lightweight analytics layer for brands running
+            influencer campaigns. Connect your platforms, measure revenue and
+            ROAS by creator, and export clean reports for your team.
+          </p>
+
+          <ul class="hero-list">
+            <li><span>•</span> Campaign &amp; brand-level KPIs</li>
+            <li><span>•</span> Top-performing creators by revenue</li>
+            <li><span>•</span> CSV exports for your BI tools</li>
+            <li><span>•</span> GA4-backed event tracking</li>
+          </ul>
+
+          <div class="hero-actions">
+            <button class="btn-primary" type="button">
+              Trackfluence private dashboard
+            </button>
+            <div class="btn-ghost">Login is limited to test accounts.</div>
+          </div>
+          <div class="hero-note">
+            This site is for platform verification and early testing only. It is
+            not yet open to the public.
+          </div>
+        </section>
+
+        <!-- Right: fake KPI card -->
+        <aside class="card" aria-label="Sample Trackfluence metrics">
+          <div class="card-header">
+            <div class="card-title">Sample brand snapshot</div>
+            <div class="chip">Demo data</div>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Total Revenue (7d)</span>
+            <span class="metric-value">$12,350</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Total Spend</span>
+            <span class="metric-value subtle">$4,800</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Blended ROAS</span>
+            <span class="metric-value">2.57x</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Active creators</span>
+            <span class="metric-value">18</span>
+          </div>
+
+          <div class="sparkline">
+            <div class="sparkline-line"></div>
+            <div class="spark-dot" title="Demo point"></div>
+          </div>
+        </aside>
+      </main>
+
+      <section id="for-brands" class="bottom">
+        <div class="bottom-card">
+          <h2>What Trackfluence will do</h2>
+          <p>
+            Trackfluence will help brands move from “influencer guesses” to
+            clear performance data. Our goal is to show which creators actually
+            drive revenue and profitable customer acquisition.
+          </p>
+          <div class="pill-row">
+            <div class="pill">Creator-level ROAS</div>
+            <div class="pill">Campaign breakdowns</div>
+            <div class="pill">Exportable reports</div>
+            <div class="pill">Simple, brand-first UI</div>
+          </div>
+        </div>
+
+        <div id="status" class="bottom-card">
+          <h2>Current status</h2>
+          <p>
+            Trackfluence is under active development and currently used only by
+            the product team for testing. Public sign-ups are not yet available.
+          </p>
+          <p class="hero-note">
+            This page exists primarily to satisfy platform verification (e.g.,
+            TikTok, GA4) and to provide a basic overview of the product vision.
+          </p>
+        </div>
+      </section>
+
+      <footer>
+        <span>© <span id="year"></span> Trackfluence. All rights reserved.</span>
+        <span>
+          <a href="https://saintbate.github.io/trackfluence-legal/privacy-policy.html"
+            >Privacy Policy</a
+          >
+          &nbsp;•&nbsp;
+          <a href="https://saintbate.github.io/trackfluence-legal/terms.html"
+            >Terms of Service</a
+          >
+        </span>
+      </footer>
+    </div>
+
+    <script>
+      // keep year fresh
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
