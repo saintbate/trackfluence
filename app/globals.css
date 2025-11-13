@@ -9,6 +9,7 @@
 :root {
   --font-sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --theme-transition: 200ms ease;
 
   color-scheme: dark;
 }
@@ -29,4 +30,19 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 16px;
+}
+
+/* Minimal, tasteful transitions for theme-related properties */
+* {
+  transition-property: background-color, color, border-color, fill, stroke, box-shadow;
+  transition-duration: var(--theme-transition);
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
 }

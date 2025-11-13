@@ -57,6 +57,45 @@ SENTRY_PROJECT=your-project-name
 SENTRY_AUTH_TOKEN=your-auth-token
 ```
 
+### Social / Analytics / Cron / Webhooks
+
+Configure these as needed for GA4 and social integrations:
+
+```bash
+# Site
+NEXT_PUBLIC_SITE_URL=https://yourdomain.com
+
+# GA4 (Measurement Protocol)
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXX
+GA4_API_SECRET=your-ga4-api-secret
+NEXT_PUBLIC_GA_DEBUG=0
+
+# Feature flags
+NEXT_PUBLIC_IG_ENABLED=false
+NEXT_PUBLIC_TIKTOK_ENABLED=false
+NEXT_PUBLIC_SOCIAL_DEBUG=0
+SOCIAL_MOCK_DATA=1
+
+# Instagram (Meta Graph)
+META_APP_ID=
+META_APP_SECRET=
+META_GRAPH_API_BASE=https://graph.facebook.com
+IG_SYSTEM_USER_TOKEN=
+IG_BUSINESS_ACCOUNT_ID=
+
+# TikTok Content API
+TIKTOK_APP_ID=
+TIKTOK_APP_SECRET=
+TIKTOK_API_BASE=https://business-api.tiktok.com
+TIKTOK_REDIRECT_URL=https://yourdomain.com/api/tiktok/oauth/callback
+TIKTOK_BUSINESS_ACCOUNT_ID=
+
+# Cron/Webhooks
+CRON_TOKEN_REFRESH_SECRET=
+WEBHOOK_SHARED_SECRET=
+INSTAGRAM_API_BASE=https://graph.facebook.com
+```
+
 ### Generating Secrets
 
 **NEXTAUTH_SECRET:**
