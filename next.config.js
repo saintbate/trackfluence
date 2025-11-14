@@ -1,12 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  eslint: {
-    ignoreDuringBuilds: true,
+
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/signin",
+        permanent: false, // 307 Temporary Redirect
+      },
+    ];
   },
-  // keep/restore any options you actually need:
-  // images: { domains: ['lh3.googleusercontent.com'] },
-  // experimental: { serverActions: true },
 };
 
 module.exports = nextConfig;
