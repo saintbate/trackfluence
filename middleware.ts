@@ -33,6 +33,15 @@ export async function middleware(req: NextRequest) {
     });
   }
 
+  // Skip auth + Supabase work for root and favicon requests to avoid
+  // unnecessary middleware overhead and potential Edge-incompatible deps.
+  if (
+    req.nextUrl.pathname === "/" ||
+    req.nextUrl.pathname.startsWith("/favicon")
+  ) {
+    return res;
+  }
+
   // --- Supabase client (Edge runtime-safe via dynamic import) -------------
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
