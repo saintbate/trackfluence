@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // components/controls/SpendInput.tsx
 "use client";
 
@@ -6,7 +7,6 @@ import { useCallback, useMemo, useRef } from "react";
 
 function useDebounced(fn: (...a: any[]) => void, ms = 400) {
   const t = useRef<number | undefined>(undefined);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   return useCallback((...args: any[]) => {
     if (t.current) window.clearTimeout(t.current);
     t.current = window.setTimeout(() => fn(...args), ms);

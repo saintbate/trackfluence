@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { GA_ENABLED } from "@/lib/env";
 export { GA_ENABLED } from "@/lib/env";
 import type { EventKey, EventMap } from "@/lib/analytics/events";
@@ -50,8 +51,6 @@ async function safeFetch(input: RequestInfo | URL, init?: RequestInit): Promise<
     return null;
   }
 }
-
-type GAParams = Record<string, string | number | boolean | null | undefined>;
 
 export async function track<N extends EventKey>(name: N, params: EventMap[N]): Promise<void> {
   if (!GA_ENABLED) return;

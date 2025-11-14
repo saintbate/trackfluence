@@ -1,8 +1,8 @@
 // lib/auth-options.ts
-import type { NextAuthOptions } from "next-auth";
+import type { NextAuthConfig } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-export const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthConfig = {
   secret: process.env.NEXTAUTH_SECRET, // ✅ env var must be NEXTAUTH_SECRET
 
   providers: [
@@ -27,6 +27,7 @@ export const authOptions: NextAuthOptions = {
     },
 
     async session({ session, token }) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if (token?.provider) (session as any).provider = token.provider;
       return session;
     },

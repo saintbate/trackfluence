@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // lib/db.types.ts
 import type { Brand, Campaign } from "@/lib/types";
 

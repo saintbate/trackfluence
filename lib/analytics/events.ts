@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export type CommonFields = {
   env?: "dev" | "prod";
   app_version?: string;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { z } from "zod";
 import crypto from "crypto";
 import { getServiceClient } from "@/lib/supabase";

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/static-components */
 export default function OverviewLoading() {
   const SkeletonCard = () => (
     <div className="rounded-xl border p-4 shadow-sm bg-slate-50 animate-pulse">

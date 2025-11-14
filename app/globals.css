@@ -9,11 +9,7 @@
 :root {
   --font-sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-<<<<<<< HEAD
-=======
   --theme-transition: 200ms ease;
->>>>>>> cursor/overview-wire
-
   color-scheme: dark;
 }
 
@@ -33,8 +29,6 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 16px;
-<<<<<<< HEAD
-=======
 }
 
 /* Minimal, tasteful transitions for theme-related properties */
@@ -50,5 +44,4 @@ body {
     animation: none !important;
     scroll-behavior: auto !important;
   }
->>>>>>> cursor/overview-wire
 }

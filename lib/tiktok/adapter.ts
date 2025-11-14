@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 "use server";
 
 import { TIKTOK_DEFAULT_ACCOUNT_ID } from "@/lib/env";

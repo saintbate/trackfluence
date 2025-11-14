@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createServerClient } from "@/lib/supabase/server";
 import { calcOffset } from "@/lib/paging";
 

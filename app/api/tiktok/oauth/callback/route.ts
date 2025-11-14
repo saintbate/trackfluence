@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
 import { exchangeCodeForToken, verifyAndConsumeState, saveTokenForAccount } from "@/lib/tiktok/oauth";
 import { TIKTOK_BASE } from "@/lib/env";

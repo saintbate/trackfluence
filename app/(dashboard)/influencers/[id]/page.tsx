@@ -15,15 +15,16 @@ export default async function InfluencerShowPage({
   params,
   searchParams,
 }: {
-  params: { id: string };
-  searchParams?: Record<string, string | string[] | undefined>;
+  params: Promise<{ id: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const influencerId = params.id;
-  const brandId = readParam(searchParams ?? {}, "brandId");
-  const dateFrom = readParam(searchParams ?? {}, "dateFrom") ?? undefined;
-  const dateTo = readParam(searchParams ?? {}, "dateTo") ?? undefined;
-  const campaignId = readParam(searchParams ?? {}, "campaignId") ?? undefined;
-  const page = Math.max(parseInt(readParam(searchParams ?? {}, "page") ?? "1", 10) || 1, 1);
+  const { id: influencerId } = await params;
+  const s = await searchParams;
+  const brandId = readParam(s ?? {}, "brandId");
+  const dateFrom = readParam(s ?? {}, "dateFrom") ?? undefined;
+  const dateTo = readParam(s ?? {}, "dateTo") ?? undefined;
+  const campaignId = readParam(s ?? {}, "campaignId") ?? undefined;
+  const page = Math.max(parseInt(readParam(s ?? {}, "page") ?? "1", 10) || 1, 1);
   if (!brandId) {
     return (
       <div className="space-y-4">

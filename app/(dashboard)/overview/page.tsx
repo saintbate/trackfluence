@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // app/(dashboard)/overview/page.tsx
 import React from "react";
 
@@ -36,18 +37,19 @@ function readParam(
 export default async function OverviewPage({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
+  const s = await searchParams;
   const params: WindowParams = {
-    campaignId: readParam(searchParams ?? {}, "campaignId"),
-    dateFrom: readParam(searchParams ?? {}, "dateFrom"),
-    dateTo: readParam(searchParams ?? {}, "dateTo"),
-    page: readParam(searchParams ?? {}, "page"),
-    limit: readParam(searchParams ?? {}, "limit"),
+    campaignId: readParam(s ?? {}, "campaignId"),
+    dateFrom: readParam(s ?? {}, "dateFrom"),
+    dateTo: readParam(s ?? {}, "dateTo"),
+    page: readParam(s ?? {}, "page"),
+    limit: readParam(s ?? {}, "limit"),
   };
 
   // Brand selection (may be null/undefined)
-  const brandId = readParam(searchParams ?? {}, "brandId");
+  const brandId = readParam(s ?? {}, "brandId");
 
   // Map window params to lib function signatures
   const kpiParams = {

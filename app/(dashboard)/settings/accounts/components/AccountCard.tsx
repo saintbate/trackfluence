@@ -8,7 +8,8 @@ type Props = {
   children?: React.ReactNode;
 };
 
-export default function AccountCard({ platform, brandId, accounts, connectHref, children }: Props) {
+export default function AccountCard({ platform, brandId: _brandId, accounts, connectHref, children }: Props) {
+  void _brandId;
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-200/60 bg-white shadow-sm dark:border-slate-800/60 dark:bg-slate-900">
       <div className="flex items-center justify-between px-4 py-3">

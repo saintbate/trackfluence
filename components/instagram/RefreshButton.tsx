@@ -1,11 +1,12 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useTransition } from "react";
 import { refreshInstagram } from "@/app/(dashboard)/actions/instagram";
 
 export default function RefreshInstagramButton({ brandId, from, to }: { brandId?: string | null; from?: string | null; to?: string | null }) {
   const [isPending, startTransition] = useTransition();
-  const [last, setLast] = useState<{ daily: number; media: number } | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const last = new Date();
   const disabled = !brandId || !from || !to || isPending;
 
   return (

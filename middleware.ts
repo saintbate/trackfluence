@@ -1,9 +1,4 @@
 // middleware.ts
-<<<<<<< HEAD
-export { default } from "next-auth/middleware";
-export const config = {
-  matcher: ["/((?!signin|api/auth|_next|favicon.ico).*)"],
-=======
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
@@ -78,5 +73,4 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico|public).*)"],
->>>>>>> cursor/overview-wire
 };

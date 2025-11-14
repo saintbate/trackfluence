@@ -55,8 +55,8 @@ export default function BrandPicker({ initialBrandId, onLoadingChange }: BrandPi
           return;
         }
         setBrands(payload.brands ?? []);
-      } catch (err) {
-        console.error("[BrandPicker] load brands", err);
+      } catch (_err) {
+        console.error("[BrandPicker] load brands", _err);
         if (!cancelled) {
           setError("Unable to load brands");
           setBrands([]);
@@ -108,7 +108,7 @@ export default function BrandPicker({ initialBrandId, onLoadingChange }: BrandPi
             app_version: undefined,
           });
         }
-      } catch (err) {
+      } catch {
         // no-op
       }
     }

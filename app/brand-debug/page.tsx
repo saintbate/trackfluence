@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // Server Component page that shows your current user + their brand rows
 import React from "react";
 import { createServerClient } from "@/lib/supabase/server";

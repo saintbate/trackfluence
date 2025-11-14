@@ -5,10 +5,17 @@ import RevenueChart from "@/components/campaign/RevenueChart";
 import TopInfluencersForCampaign from "@/components/campaign/TopInfluencersTable";
 import Empty from "@/components/states/Empty";
 
-export default async function CampaignPage({ params, searchParams }: { params: { campaignId: string }; searchParams?: Record<string, string | string[] | undefined> }) {
-  const campaignId = params.campaignId;
-  const dateFrom = typeof searchParams?.dateFrom === "string" ? searchParams?.dateFrom : null;
-  const dateTo = typeof searchParams?.dateTo === "string" ? searchParams?.dateTo : null;
+export default async function CampaignPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ campaignId: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const { campaignId } = await params;
+  const resolvedSearch = await searchParams;
+  const dateFrom = typeof resolvedSearch?.dateFrom === "string" ? resolvedSearch?.dateFrom : null;
+  const dateTo = typeof resolvedSearch?.dateTo === "string" ? resolvedSearch?.dateTo : null;
 
   const supabase = createServerClient();
   const { data: campaignRow } = await supabase.from("campaign").select("id,name").eq("id", campaignId).maybeSingle();

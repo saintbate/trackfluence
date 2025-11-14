@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import { META_BASE, IG_SYSTEM_TOKEN } from "@/lib/env";

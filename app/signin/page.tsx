@@ -1,13 +1,9 @@
 // app/signin/page.tsx
 "use client";
 
-<<<<<<< HEAD
-import { signIn } from "next-auth/react";
-=======
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@/lib/supabase/client";
->>>>>>> cursor/overview-wire
 
 export default function SignInPage() {
   const router = useRouter();

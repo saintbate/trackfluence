@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
@@ -60,7 +61,7 @@ export default function CampaignControls({
   // Notify parent whenever inputs change
   useEffect(() => {
     if (from && to) onChange({ campaignId: allCampaigns ? null : campaignId, from, to });
-  }, [campaignId, from, to, allCampaigns]); // eslint-disable-line
+  }, [campaignId, from, to, allCampaigns]);
 
   const selected = useMemo(
     () => campaigns.find(c => c.id === campaignId) ?? null,

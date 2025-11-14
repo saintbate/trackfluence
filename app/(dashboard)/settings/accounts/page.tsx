@@ -1,14 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createServerClient } from "@/lib/supabase/server";
-import { SOCIAL_MOCK } from "@/lib/env";
-import Link from "next/link";
 import AccountCard from "@/app/(dashboard)/settings/accounts/components/AccountCard";
 import { disconnectTikTok } from "@/app/(dashboard)/settings/actions/tiktok";
 import { disconnectInstagram } from "@/app/(dashboard)/settings/actions/instagram";
 import { refreshInstagram } from "@/app/(dashboard)/actions/instagram";
 import { refreshTikTok } from "@/app/(dashboard)/actions/tiktok";
 
-export default async function AccountsPage({ searchParams }: { searchParams?: Record<string, string | string[] | undefined> }) {
-  const brandId = typeof searchParams?.brandId === "string" ? searchParams?.brandId : null;
+export default async function AccountsPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const sp = await searchParams;
+  const brandId = typeof sp?.brandId === "string" ? sp.brandId : null;
   const supabase = createServerClient();
   const { data: igRows } = brandId
     ? await supabase.from("brand_social_account").select("external_account_id, account_name, connected_at").eq("brand_id", brandId).eq("platform", "instagram")

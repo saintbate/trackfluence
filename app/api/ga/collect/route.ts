@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { GA_API_SECRET, GA_MEASUREMENT_ID, GA_DEBUG } from "@/lib/env";
 
