@@ -1,6 +1,5 @@
 // middleware.ts
 import { NextResponse, type NextRequest } from "next/server";
-import { createServerClient } from "@supabase/ssr";
 
 export async function middleware(req: NextRequest) {
   // Use a mutable response object so cookies & headers are attached correctly
@@ -34,7 +33,7 @@ export async function middleware(req: NextRequest) {
     });
   }
 
-  // --- Supabase client (Edge-safe) ----------------------------------------
+  // --- Supabase client (Edge runtime-safe via dynamic import) -------------
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
@@ -48,29 +47,42 @@ export async function middleware(req: NextRequest) {
 
   type CookieOptions = Parameters<typeof res.cookies.set>[2];
 
-  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
-    cookies: {
-      get(name: string) {
-        return req.cookies.get(name)?.value;
-      },
-      set(name: string, value: string, options?: CookieOptions) {
-        res.cookies.set(name, value, options);
-      },
-      remove(name: string, options?: CookieOptions) {
-        res.cookies.set(name, "", { ...options, maxAge: 0 });
-      },
-    },
-  });
+  let user: any | null = null;
 
-  const { data, error } = await supabase.auth.getUser();
+  try {
+    const { createServerClient } = await import("@supabase/ssr");
 
-  if (error) {
-    console.error("Supabase auth.getUser error in middleware:", error.message);
-    // Fail open: let the request through instead of hard-crashing
+    const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+      cookies: {
+        get(name: string) {
+          return req.cookies.get(name)?.value;
+        },
+        set(name: string, value: string, options?: CookieOptions) {
+          res.cookies.set(name, value, options);
+        },
+        remove(name: string, options?: CookieOptions) {
+          res.cookies.set(name, "", { ...options, maxAge: 0 });
+        },
+      },
+    });
+
+    const { data, error } = await supabase.auth.getUser();
+
+    if (error) {
+      console.error("Supabase auth.getUser error in middleware:", error.message);
+      // Fail open: let the request through instead of hard-crashing
+      return res;
+    }
+
+    user = data.user;
+  } catch (error: any) {
+    console.error(
+      "Supabase middleware import or runtime error (likely Edge-incompatible code):",
+      error?.message ?? error
+    );
+    // Fail open on Supabase import/runtime errors
     return res;
   }
-
-  const user = data.user;
 
   // --- Route protection logic ---------------------------------------------
   const isAuthRoute =
