@@ -1,124 +1,47 @@
 // middleware.ts
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export async function middleware(req: NextRequest) {
-  // Use a mutable response object so cookies & headers are attached correctly
+export function middleware(req: NextRequest) {
+  // Base response
   const res = NextResponse.next({
     request: {
       headers: req.headers,
     },
   });
 
-  // --- GA / cid cookie handling -------------------------------------------
-  const currentCid =
-    req.cookies.get("cid")?.value ?? req.cookies.get("ga_cid")?.value;
-
-  if (!currentCid) {
-    const v = crypto.randomUUID();
-    res.cookies.set("cid", v, {
-      path: "/",
-      maxAge: 60 * 60 * 24 * 365 * 2, // 2 years
-      sameSite: "lax",
-      secure: true,
-      httpOnly: false,
-    });
-  } else if (!req.cookies.get("cid")?.value && currentCid) {
-    // Backfill `cid` from legacy `ga_cid`
-    res.cookies.set("cid", currentCid, {
-      path: "/",
-      maxAge: 60 * 60 * 24 * 365 * 2,
-      sameSite: "lax",
-      secure: true,
-      httpOnly: false,
-    });
-  }
-
-  // Skip auth + Supabase work for root and favicon requests to avoid
-  // unnecessary middleware overhead and potential Edge-incompatible deps.
-  if (
-    req.nextUrl.pathname === "/" ||
-    req.nextUrl.pathname.startsWith("/favicon")
-  ) {
-    return res;
-  }
-
-  // --- Supabase client (Edge runtime-safe via dynamic import) -------------
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  // If env vars are missing in production, don't crash middleware
-  if (!supabaseUrl || !supabaseAnonKey) {
-    console.error(
-      "Supabase env vars missing in middleware. Check Vercel env: NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY."
-    );
-    return res;
-  }
-
-  type CookieOptions = Parameters<typeof res.cookies.set>[2];
-
-  let user: any | null = null;
-
+  // Simple GA `cid` cookie handling (Edge-safe, no Node APIs)
   try {
-    const { createServerClient } = await import("@supabase/ssr");
+    const cidCookie = req.cookies.get("cid")?.value;
+    const legacyCid = req.cookies.get("ga_cid")?.value;
+    const currentCid = cidCookie ?? legacyCid;
 
-    const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
-      cookies: {
-        get(name: string) {
-          return req.cookies.get(name)?.value;
-        },
-        set(name: string, value: string, options?: CookieOptions) {
-          res.cookies.set(name, value, options);
-        },
-        remove(name: string, options?: CookieOptions) {
-          res.cookies.set(name, "", { ...options, maxAge: 0 });
-        },
-      },
-    });
+    if (!currentCid) {
+      // Use web crypto on Edge instead of Node's crypto
+      const v =
+        globalThis.crypto?.randomUUID?.() ??
+        Math.random().toString(36).slice(2);
 
-    const { data, error } = await supabase.auth.getUser();
-
-    if (error) {
-      console.error("Supabase auth.getUser error in middleware:", error.message);
-      // Fail open: let the request through instead of hard-crashing
-      return res;
+      res.cookies.set("cid", v, {
+        path: "/",
+        maxAge: 60 * 60 * 24 * 365 * 2, // 2 years
+        sameSite: "lax",
+      });
+    } else if (!cidCookie && currentCid) {
+      // backfill cid from legacy ga_cid
+      res.cookies.set("cid", currentCid, {
+        path: "/",
+        maxAge: 60 * 60 * 24 * 365 * 2,
+        sameSite: "lax",
+      });
     }
-
-    user = data.user;
-  } catch (error: any) {
-    console.error(
-      "Supabase middleware import or runtime error (likely Edge-incompatible code):",
-      error?.message ?? error
-    );
-    // Fail open on Supabase import/runtime errors
-    return res;
-  }
-
-  // --- Route protection logic ---------------------------------------------
-  const isAuthRoute =
-    req.nextUrl.pathname.startsWith("/signin") ||
-    req.nextUrl.pathname.startsWith("/auth/callback") ||
-    req.nextUrl.pathname.startsWith("/whoami") ||
-    req.nextUrl.pathname.startsWith("/brand-debug");
-
-  if (!user && !isAuthRoute) {
-    const url = req.nextUrl.clone();
-    url.pathname = "/signin";
-    url.searchParams.set(
-      "redirectTo",
-      req.nextUrl.pathname + req.nextUrl.search
-    );
-    return NextResponse.redirect(url);
-  }
-
-  if (user && req.nextUrl.pathname === "/signin") {
-    const url = req.nextUrl.clone();
-    url.pathname = "/overview";
-    return NextResponse.redirect(url);
+  } catch (err) {
+    console.error("Error setting cid cookie in middleware:", err);
   }
 
   return res;
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|public).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
