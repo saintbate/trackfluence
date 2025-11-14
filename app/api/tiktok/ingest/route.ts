@@ -5,7 +5,7 @@ import { getTikTokDaily, getTikTokMedia } from "@/lib/tiktok";
 import { upsertAccountDaily, upsertMediaRows } from "@/lib/tiktok/persist";
 import { SOCIAL_DEBUG, TIKTOK_DEFAULT_ACCOUNT_ID } from "@/lib/env";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 const QuerySchema = z.object({
   brandId: z.string().uuid(),

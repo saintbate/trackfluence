@@ -4,7 +4,7 @@ import { createServerClient } from "@supabase/ssr";
 
 export async function middleware(req: NextRequest) {
   // Use a mutable response object so cookies & headers are attached correctly
-  let res = NextResponse.next({
+  const res = NextResponse.next({
     request: {
       headers: req.headers,
     },

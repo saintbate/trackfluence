@@ -5,7 +5,7 @@ import { getInstagramDaily, getInstagramMedia } from "@/lib/instagram";
 import { upsertAccountDaily, upsertMediaRows } from "@/lib/instagram/persist";
 import { SOCIAL_DEBUG, IG_DEFAULT_BUSINESS_ID } from "@/lib/env";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 const QuerySchema = z.object({
   brandId: z.string().uuid(),

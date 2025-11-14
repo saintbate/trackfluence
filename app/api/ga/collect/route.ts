@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GA_API_SECRET, GA_MEASUREMENT_ID, GA_DEBUG } from "@/lib/env";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 type IncomingEvent = { name: string; params?: Record<string, any> };
 type IncomingPayload = {
