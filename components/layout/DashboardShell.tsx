@@ -4,6 +4,7 @@
 import { ReactNode } from "react";
 import { BarChart3, Layers, LineChart, Settings } from "lucide-react";
 import Link from "next/link";
+import type { Route } from "next";
 
 export default function DashboardShell({ title, right, children }: {
   title: string;
@@ -45,7 +46,7 @@ export default function DashboardShell({ title, right, children }: {
   );
 }
 
-function SidebarLink({ href, icon, children }: { href: string; icon: ReactNode; children: ReactNode }) {
+function SidebarLink({ href, icon, children }: { href: Route; icon: ReactNode; children: ReactNode }) {
   return (
     <Link
       href={href}

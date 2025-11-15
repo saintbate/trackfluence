@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { LayoutGrid, Megaphone, Users, Settings } from "lucide-react";
-
+import type { Route } from "next";
 export default function Sidebar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(true);
@@ -21,7 +21,7 @@ export default function Sidebar() {
     localStorage.setItem("tf-sidebar", next ? "open" : "closed");
   }
 
-  const nav = [
+  const nav: { href: Route; label: string; icon: typeof LayoutGrid }[] = [
     { href: "/overview", label: "Overview", icon: LayoutGrid },
     { href: "/campaigns", label: "Campaigns", icon: Megaphone },
     { href: "/influencers", label: "Influencers", icon: Users },

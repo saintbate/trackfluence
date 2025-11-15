@@ -3,6 +3,7 @@
 import * as React from "react";
 import { useEffect, useTransition } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import type { Route } from "next";
 
 type SimplePagerProps = {
   page: number;
@@ -37,7 +38,7 @@ export default function SimplePager({ page, pageSize, total, onLoadingChange }: 
     const href = queryString ? `${pathname}?${queryString}` : pathname;
 
     startTransition(() => {
-      router.push(href);
+      router.push(href as Route);
     });
     setAnnounce(`Page ${clamped} of ${totalPages}`);
     setTimeout(() => setAnnounce(""), 500);
