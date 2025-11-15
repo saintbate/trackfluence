@@ -46,7 +46,7 @@ export default function AccountCard({ platform, brandId: _brandId, accounts, con
             <span>No {platform} accounts connected for this brand.</span>
             {connectHref ? (
               <Link
-                href={connectHref}
+              href={{ pathname: connectHref || "/" }}
                 className="rounded border border-slate-300 px-2 py-1 text-xs hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800"
               >
                 Connect {platform === "instagram" ? "Instagram" : "TikTok"}
