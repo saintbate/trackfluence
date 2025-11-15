@@ -93,7 +93,7 @@ export default function BrandPicker({ initialBrandId, onLoadingChange }: BrandPi
     const href = queryString ? `${pathname}?${queryString}` : pathname;
 
     startTransition(() => {
-      router.replace(href);
+      router.replace(href as any);
     });
 
     // Analytics (guarded)

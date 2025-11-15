@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import type { Route } from "next";
 
 type Row = {
   influencer_id: string;
@@ -35,8 +36,8 @@ export default function TopInfluencersTable({
   const router = useRouter();
   const [announce, setAnnounce] = React.useState<string | null>(null);
 
-  function go(href: string) {
-    setAnnounce("Opening influencer details…");
+  function go(href: Route) {
+    setAnnounce("Opening influencer details...");
     router.push(href);
   }
 
@@ -61,11 +62,10 @@ export default function TopInfluencersTable({
           <tbody>
             {rows.length === 0 ? (
               <tr>
-                <td
-                  colSpan={4}
-                  className="px-4 py-12 text-center text-slate-400"
-                >
-                  No influencers yet
+                <td colSpan={4}>
+                  <div className="px-4 py-12 text-center text-slate-400">
+                    No influencers yet
+                  </div>
                 </td>
               </tr>
             ) : (
@@ -73,7 +73,11 @@ export default function TopInfluencersTable({
                 <tr
                   key={r.influencer_id}
                   className="border-t border-white/10 hover:bg-white/5 cursor-pointer"
-                  onClick={() => go(`/influencers/${r.influencer_id}`)}
+                  onClick={() =>
+                    go(
+                      `/influencers/${r.influencer_id}` as Route
+                    )
+                  }
                 >
                   <td className="px-4 py-3">{r.handle}</td>
                   <td className="px-4 py-3">{r.platform}</td>
@@ -97,9 +101,11 @@ export default function TopInfluencersTable({
         >
           Prev
         </button>
+
         <span>
           Page {page} of {totalPages}
         </span>
+
         <button
           className="rounded border border-white/10 px-2 py-1 disabled:opacity-40"
           onClick={() => onPageChange?.(page + 1)}
