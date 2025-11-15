@@ -2,12 +2,23 @@ import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
 import { BrandProvider } from "@/components/providers/BrandContext";
 import { Suspense } from "react";
+import { requireAuth } from "@/lib/auth";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default async function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  // Enforce server-side auth for all dashboard routes.
+  await requireAuth();
+
   return (
     <Suspense fallback={null}>
       <BrandProvider>
-        <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 z-50 rounded bg-indigo-600 px-3 py-2 text-white">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 z-50 rounded bg-indigo-600 px-3 py-2 text-white"
+        >
           Skip to content
         </a>
         <div className="min-h-screen lg:grid lg:grid-cols-[16rem_1fr]">

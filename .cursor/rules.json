@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "id": "routing-typed-routes-preserve",
+      "description": "Do not automatically rewrite typed routing and navigation code unless explicitly requested.",
+      "globs": ["app/**/*", "components/**/*", "lib/**/*"],
+      "notes": [
+        "Avoid auto-simplifying router.push(...) and router.replace(...) calls.",
+        "Do not change RouteImpl<...> usages or typed route helpers unless asked.",
+        "Do not rewrite template-string paths that are already working (e.g. `${pathname}?${queryString}`) unless explicitly instructed."
+      ],
+      "protectPatterns": [
+        "router.push(",
+        "router.replace(",
+        "RouteImpl<",
+        "typedRoutes"
+      ]
+    },
+    {
+      "id": "auth-core-protection",
+      "description": "Auth configuration and helpers should only be edited when the user explicitly asks.",
+      "files": [
+        "app/api/auth/[...nextauth]/route.ts",
+        "lib/auth-options.ts",
+        "lib/auth.ts"
+      ],
+      "requireExplicitUserRequest": true
+    },
+    {
+      "id": "server-session-protection",
+      "description": "Call sites of getServerSession should only be modified when explicitly requested.",
+      "globs": ["**/*.ts", "**/*.tsx"],
+      "protectPatterns": ["getServerSession("],
+      "requireExplicitUserRequest": true
+    },
+    {
+      "id": "preserve-use-client",
+      "description": "Never remove a \"use client\" directive; files that start as client components must remain client components.",
+      "globs": ["**/*.tsx", "**/*.ts"],
+      "notes": [
+        "Do not delete or move the \"use client\" directive at the top of a file.",
+        "Refactors must keep client/server boundaries intact unless the user explicitly instructs otherwise."
+      ],
+      "protectPatterns": ["\"use client\";"]
+    }
+  ]
+}
+
+

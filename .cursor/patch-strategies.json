@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "strategies": [
+    {
+      "id": "minimal-core-app-edits",
+      "description": "Prefer small, focused patches in core app directories.",
+      "globs": ["app/**/*", "components/**/*", "lib/**/*"],
+      "mode": "minimal"
+    },
+    {
+      "id": "conservative-auth-api-edits",
+      "description": "Avoid large rewrites or deletions in auth and API routes.",
+      "globs": [
+        "app/api/**/*",
+        "app/api/auth/[...nextauth]/route.ts",
+        "lib/auth.ts"
+      ],
+      "mode": "conservative"
+    }
+  ]
+}
+
+
