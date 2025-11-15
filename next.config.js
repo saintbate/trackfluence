@@ -2,9 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    serverActions: {
-      allowedOrigins: ["*"],
-    },
+    // App Router is already being used; this is safe
+    typedRoutes: true,
   },
 };
 
