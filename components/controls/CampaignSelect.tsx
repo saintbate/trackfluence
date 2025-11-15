@@ -3,6 +3,7 @@
 
 import { useEffect, useMemo, useState, useTransition, type ChangeEventHandler } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import type { Route } from "next";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { GA_ENABLED, track } from "@/lib/ga";
 
@@ -93,8 +94,12 @@ export default function CampaignSelect({ brandId, initialCampaignId, onLoadingCh
     const qs = new URLSearchParams();
     if (dateFrom) qs.set("dateFrom", dateFrom);
     if (dateTo) qs.set("dateTo", dateTo);
-    const href = nextCampaign ? `/campaign/${nextCampaign}${qs.toString() ? `?${qs.toString()}` : ""}` : (qs.toString() ? `${pathname.split("?")[0]}?${qs.toString()}` : pathname.split("?")[0]);
-    startTransition(() => router.push(href));
+    const href = nextCampaign
+      ? `/campaign/${nextCampaign}${qs.toString() ? `?${qs.toString()}` : ""}`
+      : qs.toString()
+        ? `${pathname.split("?")[0]}?${qs.toString()}`
+        : pathname.split("?")[0];
+    startTransition(() => router.push(href as Route));
 
     if (GA_ENABLED) {
       try {
@@ -116,7 +121,7 @@ export default function CampaignSelect({ brandId, initialCampaignId, onLoadingCh
     const queryString = nextParams.toString();
     const href = queryString ? `${pathname}?${queryString}` : pathname;
     startTransition(() => {
-      router.push(href);
+      router.push(href as Route);
     });
   };
 

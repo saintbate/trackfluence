@@ -2,6 +2,7 @@
 "use client";
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import type { Route } from "next";
 
 export type DateWindowPickerProps = {
   dateFrom: string;
@@ -26,7 +27,8 @@ function DateWindowPicker({ dateFrom, dateTo }: DateWindowPickerProps) {
       q.set("dateTo", f);
     }
 
-    router.replace(`${pathname}?${q.toString()}`);
+    const href = `${pathname}?${q.toString()}`;
+    router.replace(href as Route);
   }
 
   return (

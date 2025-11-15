@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import type { Route } from "next";
 import { GA_ENABLED, trackEvent } from "@/lib/ga";
 import { useSetBrand } from "@/components/providers/BrandContext";
 
@@ -93,7 +94,7 @@ export default function BrandPicker({ initialBrandId, onLoadingChange }: BrandPi
     const href = queryString ? `${pathname}?${queryString}` : pathname;
 
     startTransition(() => {
-      router.replace(href as any);
+      router.replace(href as Route);
     });
 
     // Analytics (guarded)

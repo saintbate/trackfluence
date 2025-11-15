@@ -3,6 +3,7 @@
 
 import { useCallback, useEffect, useMemo, useState, useTransition } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import type { Route } from "next";
 import { GA_ENABLED, track } from "@/lib/ga";
 
 type DateRangePickerProps = {
@@ -126,7 +127,7 @@ export default function DateRangePicker({ initialFrom, initialTo, onLoadingChang
       const href = queryString ? `${pathname}?${queryString}` : pathname;
 
       startTransition(() => {
-        router.push(href);
+        router.push(href as Route);
       });
     },
     [pathname, router, searchParams, startTransition]

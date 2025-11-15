@@ -4,7 +4,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useRef } from "react";
-
+import type { Route } from "next";
 function useDebounced(fn: (...a: any[]) => void, ms = 400) {
   const t = useRef<number | undefined>(undefined);
   return useCallback((...args: any[]) => {
@@ -38,7 +38,8 @@ export default function SpendInput({
     const q = new URLSearchParams(qs.toString());
     if (n === "" || Number.isNaN(n)) q.delete(paramKey);
     else q.set(paramKey, String(n));
-    router.replace(`${pathname}?${q.toString()}`);
+    const href = `${pathname}?${q.toString()}`;
+    router.replace(href as Route);
   });
 
   return (

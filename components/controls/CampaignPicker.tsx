@@ -3,7 +3,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
-
+import type { Route } from "next";
 type Campaign = { id: string; name: string };
 
 export default function CampaignPicker({
@@ -35,7 +35,8 @@ export default function CampaignPicker({
     const q = new URLSearchParams(qs.toString());
     if (!next) q.delete(paramKey);
     else q.set(paramKey, next);
-    router.replace(`${pathname}?${q.toString()}`);
+    const href = `${pathname}?${q.toString()}`;
+    router.replace(href as Route);
   }
 
   return (
