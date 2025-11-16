@@ -6,7 +6,7 @@ import type { AccountDaily, MediaRow } from "./types";
 
 export async function upsertAccountDaily(brandId: string, igUserId: string, rows: AccountDaily[]): Promise<number> {
   if (!rows || rows.length === 0) return 0;
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
   const payload = rows.map((r) => ({
     brand_id: brandId,
     ig_user_id: igUserId,
@@ -28,7 +28,7 @@ export async function upsertAccountDaily(brandId: string, igUserId: string, rows
 
 export async function upsertMediaRows(brandId: string, igUserId: string, rows: MediaRow[]): Promise<number> {
   if (!rows || rows.length === 0) return 0;
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
   const payload = rows.map((r) => ({
     brand_id: brandId,
     ig_user_id: igUserId,

@@ -28,7 +28,7 @@ function num(n: unknown): number {
 
 export async function getCampaignKpis(campaignId: string, dateFrom: string | null, dateTo: string | null): Promise<CampaignKpis> {
   if (!campaignId) return EMPTY_KPIS;
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
   try {
     let query = supabase
       .from("report")
@@ -54,7 +54,7 @@ export async function getCampaignKpis(campaignId: string, dateFrom: string | nul
 
 export async function getCampaignRevenueTimeseries(campaignId: string, dateFrom: string | null, dateTo: string | null): Promise<{ date: string; revenue: number }[]> {
   if (!campaignId) return [];
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
   try {
     let query = supabase
       .from("report")
@@ -81,7 +81,7 @@ export async function getCampaignRevenueTimeseries(campaignId: string, dateFrom:
 
 export async function getTopInfluencersForCampaign(campaignId: string, dateFrom: string | null, dateTo: string | null): Promise<{ influencer_name: string; platform: string; revenue: number; orders: number }[]> {
   if (!campaignId) return [];
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
   try {
     let query = supabase
       .from("report")

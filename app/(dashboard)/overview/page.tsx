@@ -91,7 +91,7 @@ export default async function OverviewPage({
         [] as Awaited<ReturnType<typeof getRevenueTimeseries>>,
       ];
   const kpis = toKPIs(kpisRaw ?? EMPTY_KPIS);
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
   const [igDailyRes, ttDailyRes] = brandId
     ? await Promise.all([
         supabase

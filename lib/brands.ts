@@ -10,7 +10,7 @@ const CreateBrandSchema = z.object({
 
 /** List the authenticated user's brands via id OR email */
 export async function listBrandsForUser(): Promise<Brand[]> {
-  const supabaseAuth = createServerClient();
+  const supabaseAuth = await createServerClient();
   const {
     data: { user },
   } = await supabaseAuth.auth.getUser();
@@ -34,7 +34,7 @@ export async function listBrandsForUser(): Promise<Brand[]> {
 export async function createBrand(
   formData: FormData
 ): Promise<{ ok: true } | { ok: false; message: string }> {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   const {
     data: { user },

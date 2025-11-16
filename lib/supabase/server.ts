@@ -14,9 +14,11 @@ type CreateServerClientOptions = {
   response?: NextResponse;
 };
 
-export function createServerClient(options: CreateServerClientOptions = {}) {
+export async function createServerClient(options: CreateServerClientOptions = {}) {
   const { request, response } = options;
-  const cookieStore: CookieStore = getCookies() as any;
+  // In Next.js 15 / React 19, cookies() is async – await it before use to avoid
+  // "cookies() should be awaited before using its value" dynamic API errors.
+  const cookieStore: CookieStore = await (getCookies() as any);
 
   return createSupabaseServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

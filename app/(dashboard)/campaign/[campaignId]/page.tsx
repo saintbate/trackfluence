@@ -17,7 +17,7 @@ export default async function CampaignPage({
   const dateFrom = typeof resolvedSearch?.dateFrom === "string" ? resolvedSearch?.dateFrom : null;
   const dateTo = typeof resolvedSearch?.dateTo === "string" ? resolvedSearch?.dateTo : null;
 
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
   const { data: campaignRow } = await supabase.from("campaign").select("id,name").eq("id", campaignId).maybeSingle();
   const campaignName = campaignRow?.name ?? "Campaign";
 

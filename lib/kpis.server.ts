@@ -29,7 +29,7 @@ export async function getOverviewKpis(params: {
   limit?: number; // unused but kept for parity
 }): Promise<KPIs> {
   if (!params.brandId) return EMPTY_KPIS;
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   try {
     let query = supabase
@@ -80,7 +80,7 @@ export async function getTopInfluencers(params: {
   page?: number;
   pageSize?: number;
 }): Promise<{ rows: { influencer_id: string; handle: string; platform: string | null; revenue: number; num_orders: number }[]; total: number; page: number; pageSize: number }> {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
   const pageSize = Math.max(params.pageSize ?? 10, 1);
   const page = Math.max(params.page ?? 1, 1);
   const offset = (page - 1) * pageSize;
@@ -137,7 +137,7 @@ export async function getRevenueByInfluencer(params: {
   from?: string;
   to?: string;
 }): Promise<{ influencer_id: string; handle: string; platform: string | null; revenue: number; num_orders: number }[]> {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   const { data, error } = await supabase
     .from("report")
@@ -176,7 +176,7 @@ export async function getRevenueTimeseries(params: {
   to?: string;
   campaignId?: string;
 }): Promise<{ date: string; revenue: number }[]> {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   let query = supabase
     .from("report")
@@ -214,7 +214,7 @@ export async function getRevenueOrdersTimeseries(params: {
   to?: string;
   campaignId?: string;
 }): Promise<{ points: { date: string; revenue: number; orders: number }[]; totals: { revenue: number; orders: number } }> {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   let query = supabase
     .from("report")

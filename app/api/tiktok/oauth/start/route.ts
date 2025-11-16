@@ -4,7 +4,7 @@ import { createServerClient } from "@/lib/supabase/server";
 import { generateState, storeState } from "@/lib/tiktok/oauth";
 
 export async function GET(req: Request) {
-  const supaAuth = createServerClient();
+  const supaAuth = await createServerClient();
   const { data: { user } } = await supaAuth.auth.getUser();
   const u = new URL(req.url);
   const brandId = u.searchParams.get("brandId");

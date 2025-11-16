@@ -30,7 +30,7 @@ export async function listCampaignsForBrand(brandId: string): Promise<Campaign[]
 }
 
 export async function createCampaign(formData: FormData): Promise<{ ok: true } | { ok: false; message: string }> {
-  const supabaseAuth = createServerClient();
+  const supabaseAuth = await createServerClient();
   const {
     data: { user },
   } = await supabaseAuth.auth.getUser();

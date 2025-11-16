@@ -4,7 +4,7 @@ import React from "react";
 import { createServerClient } from "@/lib/supabase/server";
 
 export default async function BrandDebugPage() {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
 
   const {
     data: { user },

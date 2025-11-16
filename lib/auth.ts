@@ -1,22 +1,23 @@
 import { redirect } from "next/navigation";
-import getServerSession from "next-auth";
-import type { Session } from "next-auth";
-import { authOptions } from "@/lib/auth-options";
+import { createServerClient } from "@/lib/supabase/server";
 
 /**
- * Server-side auth guard for dashboard routes.
+ * Server-side auth guard for dashboard routes using Supabase Auth.
  *
  * Usage:
- *   await requireAuth(); // redirects to /signin if not authenticated
+ *   await requireAuth(); // redirects to /signin if no Supabase user
  */
 export async function requireAuth() {
-  const session = (await getServerSession(authOptions)) as unknown as Session | null;
+  const supabase = await createServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  if (!session || !session.user) {
+  if (!user) {
     redirect("/signin");
   }
 
-  return session;
+  return user;
 }
 
 

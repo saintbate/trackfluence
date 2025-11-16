@@ -11,7 +11,7 @@ export type InfluencerBasics = {
 export type InfluencerTimeseriesPoint = { d: string; revenue: number };
 
 export async function getInfluencerBasics(id: string): Promise<InfluencerBasics | null> {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
   const { data, error } = await supabase.from("influencer").select("id, handle, platform").eq("id", id).maybeSingle();
   if (error) throw error;
   if (!data) return null;
@@ -25,7 +25,7 @@ export async function getInfluencerTimeseries(params: {
   to?: string;
   campaignId?: string;
 }): Promise<InfluencerTimeseriesPoint[]> {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
   let q = supabase
     .from("report")
     .select("period_start, revenue, influencer_id, campaign_id")
@@ -58,7 +58,7 @@ export async function getInfluencerActivity(params: {
   page?: number;
   pageSize?: number;
 }): Promise<{ rows: any[]; total: number; page: number; pageSize: number }> {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
   const page = Math.max(1, Math.floor(params.page || 1));
   const pageSize = Math.max(1, Math.floor(params.pageSize || 20));
   const { from, to } = calcOffset(page, pageSize);

@@ -6,7 +6,7 @@ import type { AccountDaily, VideoRow } from "./types";
 
 export async function upsertAccountDaily(brandId: string, accountId: string, rows: AccountDaily[]): Promise<number> {
   if (!rows || rows.length === 0) return 0;
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
   const payload = rows.map((r) => ({
     brand_id: brandId,
     tiktok_business_account_id: accountId,
@@ -29,7 +29,7 @@ export async function upsertAccountDaily(brandId: string, accountId: string, row
 
 export async function upsertMediaRows(brandId: string, accountId: string, rows: VideoRow[]): Promise<number> {
   if (!rows || rows.length === 0) return 0;
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
   const payload = rows.map((r) => ({
     brand_id: brandId,
     tiktok_business_account_id: accountId,
