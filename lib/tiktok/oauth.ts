@@ -2,7 +2,7 @@
 import { z } from "zod";
 import crypto from "crypto";
 import { getServiceClient } from "@/lib/supabase";
-import { TIKTOK_APP_ID, TIKTOK_APP_SECRET, TIKTOK_BASE, TIKTOK_REDIRECT } from "@/lib/env";
+import { TIKTOK_APP_ID, TIKTOK_CLIENT_SECRET, TIKTOK_BASE, TIKTOK_REDIRECT } from "@/lib/env";
 
 const TokenResp = z.object({
   data: z.object({
@@ -26,7 +26,7 @@ async function postForm(path: string, body: Record<string, string>) {
 }
 
 export async function exchangeCodeForToken(code: string) {
-  if (!TIKTOK_APP_ID || !TIKTOK_APP_SECRET || !TIKTOK_REDIRECT) {
+  if (!TIKTOK_APP_ID || !TIKTOK_CLIENT_SECRET || !TIKTOK_REDIRECT) {
     throw new Error("TikTok OAuth not configured");
   }
   // Prefer Business API v1.3 endpoint if available; fallback to legacy form if needed
@@ -36,7 +36,7 @@ export async function exchangeCodeForToken(code: string) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       app_id: TIKTOK_APP_ID,
-      app_secret: TIKTOK_APP_SECRET,
+      app_secret: TIKTOK_CLIENT_SECRET,
       grant_type: "authorization_code",
       auth_code: code,
       redirect_uri: TIKTOK_REDIRECT,
@@ -45,7 +45,7 @@ export async function exchangeCodeForToken(code: string) {
   });
   const json = res.ok ? await res.json() : await postForm("/oauth/access_token/", {
     client_key: TIKTOK_APP_ID,
-    client_secret: TIKTOK_APP_SECRET,
+    client_secret: TIKTOK_CLIENT_SECRET,
     code,
     grant_type: "authorization_code",
     redirect_uri: TIKTOK_REDIRECT,
