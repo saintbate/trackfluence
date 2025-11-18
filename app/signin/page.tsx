@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@/lib/supabase/client";
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
+
 export default function SignInPage() {
   const router = useRouter();
   const supabase = createBrowserClient();
@@ -26,11 +28,10 @@ export default function SignInPage() {
     setLoading(true);
     setNotice(null);
     try {
-      const origin = typeof window !== "undefined" ? window.location.origin : undefined;
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: origin ? `${origin}/auth/callback` : undefined,
+          emailRedirectTo: APP_URL ? `${APP_URL}/auth/callback` : undefined,
         },
       });
       if (error) throw error;
@@ -47,11 +48,10 @@ export default function SignInPage() {
     setLoading(true);
     setNotice(null);
     try {
-      const origin = typeof window !== "undefined" ? window.location.origin : undefined;
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: origin ? `${origin}/auth/callback` : undefined,
+          redirectTo: APP_URL ? `${APP_URL}/auth/callback` : undefined,
         },
       });
       if (error) throw error;

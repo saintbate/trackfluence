@@ -1,10 +1,11 @@
 // app/auth/callback/route.ts
 import { NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import { APP_URL } from "@/lib/env";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const SITE_URL = APP_URL || "https://app.trackfluence.app";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);

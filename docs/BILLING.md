@@ -264,8 +264,8 @@ brew install stripe/stripe-cli/stripe
 # 2. Login
 stripe login
 
-# 3. Forward webhooks to local server
-stripe listen --forward-to localhost:3000/api/billing/webhook
+# 3. Forward webhooks to app server
+stripe listen --forward-to https://app.trackfluence.app/api/billing/webhook
 
 # 4. Trigger test events
 stripe trigger checkout.session.completed
@@ -275,7 +275,7 @@ stripe trigger checkout.session.completed
 
 1. Deploy your application
 2. Go to Stripe Dashboard → Developers → Webhooks
-3. Add endpoint: `https://yourdomain.com/api/billing/webhook`
+3. Add endpoint: `https://app.trackfluence.app/api/billing/webhook`
 4. Select events (listed in [Stripe Setup](#stripe-setup))
 5. Copy signing secret to environment variable
 

@@ -15,7 +15,7 @@ SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
 DATABASE_URL=postgresql://user:password@host:port/database
 
 # NextAuth Configuration
-NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_URL=https://app.trackfluence.app
 NEXTAUTH_SECRET=your-secret-key-here
 
 # Google OAuth (optional - for Google sign-in)
@@ -45,7 +45,7 @@ Add this to your `.env.local` as `NEXTAUTH_SECRET`.
 2. Create a new project or select existing one
 3. Enable Google+ API
 4. Go to Credentials → Create Credentials → OAuth 2.0 Client ID
-5. Add authorized redirect URI: `http://localhost:3000/api/auth/callback/google`
+5. Add authorized redirect URI: `https://app.trackfluence.app/api/auth/callback/google`
 6. Copy Client ID and Client Secret to your `.env.local`
 
 ### 3. Set Up Resend for Email Magic Links (Optional)
@@ -111,7 +111,7 @@ This creates:
 npm run dev
 ```
 
-Visit `http://localhost:3000` - you'll be redirected to the sign-in page.
+Visit `https://app.trackfluence.app` - you'll be redirected to the sign-in page.
 
 ## Authentication Flow
 

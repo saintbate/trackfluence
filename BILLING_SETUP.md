@@ -57,7 +57,7 @@ STRIPE_WEBHOOK_SECRET=whsec_your_secret_here
 npm run dev
 
 # In another terminal, forward webhooks
-stripe listen --forward-to localhost:3000/api/billing/webhook
+stripe listen --forward-to https://app.trackfluence.app/api/billing/webhook
 ```
 
 ### 6. Test Upgrade Flow

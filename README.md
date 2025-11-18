@@ -127,13 +127,7 @@ npm run seed:demo
 npm run dev
 ```
 
-App will run at:
-
-```
-http://localhost:3000
-```
-
-You will be redirected to the sign-in page.
+App will run at whatever domain you configure (e.g. `https://app.trackfluence.app` in production).
 
 ---
 

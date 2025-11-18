@@ -1,5 +1,5 @@
 // Simple dev utility to ping the GA proxy once
-const endpoint = process.env.GA_PING_URL || "http://localhost:3000/api/ga/collect";
+const endpoint = process.env.GA_PING_URL || "https://app.trackfluence.app/api/ga/collect";
 const payload = {
   client_id: crypto.randomUUID(),
   events: [{ name: "test_event", params: { source: "ga:ping" } }],

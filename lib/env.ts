@@ -1,4 +1,6 @@
 type ParsedEnv = {
+  NEXT_PUBLIC_APP_URL?: string;
+  NEXT_PUBLIC_MARKETING_URL?: string;
   NEXT_PUBLIC_GA_MEASUREMENT_ID?: string;
   GA4_API_SECRET?: string;
   NEXT_PUBLIC_GA_DEBUG?: string;
@@ -19,6 +21,8 @@ type ParsedEnv = {
 };
 
 const rawEnv: ParsedEnv = {
+  NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+  NEXT_PUBLIC_MARKETING_URL: process.env.NEXT_PUBLIC_MARKETING_URL,
   NEXT_PUBLIC_GA_MEASUREMENT_ID: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
   GA4_API_SECRET: process.env.GA4_API_SECRET,
   NEXT_PUBLIC_GA_DEBUG: process.env.NEXT_PUBLIC_GA_DEBUG,
@@ -37,6 +41,9 @@ const rawEnv: ParsedEnv = {
   TIKTOK_REDIRECT: process.env.TIKTOK_REDIRECT,
   TIKTOK_BUSINESS_ACCOUNT_ID: process.env.TIKTOK_BUSINESS_ACCOUNT_ID,
 };
+
+export const APP_URL = (rawEnv.NEXT_PUBLIC_APP_URL || "").trim() || undefined;
+export const MARKETING_URL = (rawEnv.NEXT_PUBLIC_MARKETING_URL || "").trim() || undefined;
 
 export const GA_MEASUREMENT_ID = (rawEnv.NEXT_PUBLIC_GA_MEASUREMENT_ID || "").trim() || undefined;
 export const GA_API_SECRET = (rawEnv.GA4_API_SECRET || "").trim() || undefined;

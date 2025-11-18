@@ -45,7 +45,7 @@ done
 # Soft/optional vars
 SITE_VAL="${SITE_URL:-${NEXT_PUBLIC_SITE_URL:-}}"
 if [[ -z "${NEXTAUTH_URL:-}" ]]; then
-  echo "[warn] Optional: set NEXTAUTH_URL (e.g., http://localhost:3000)"
+  echo "[warn] Optional: set NEXTAUTH_URL (e.g., https://app.trackfluence.app)"
 fi
 if [[ -z "$SITE_VAL" ]]; then
   echo "[warn] Optional: set SITE_URL or NEXT_PUBLIC_SITE_URL (used in redirects)"
@@ -85,7 +85,7 @@ echo "▶ Dev boot smoke check ..."
 ( npm run dev >/dev/null 2>&1 & echo $! > .tmp_dev_pid ) || true
 sleep 3
 if command -v curl >/dev/null 2>&1; then
-  curl -fsS http://localhost:3000 >/dev/null || true
+  curl -fsS https://app.trackfluence.app >/dev/null || true
 fi
 if [[ -f .tmp_dev_pid ]]; then
   kill "$(cat .tmp_dev_pid)" >/dev/null 2>&1 || true
@@ -130,7 +130,7 @@ for v in "${required_vars[@]}"; do
 done
 
 # Optional but nice to have in local dev:
-[[ -z "${NEXTAUTH_URL:-}" ]] && warn "Optional: set \$NEXTAUTH_URL (e.g. http://localhost:3000)"
+[[ -z "${NEXTAUTH_URL:-}" ]] && warn "Optional: set \$NEXTAUTH_URL (e.g. https://app.trackfluence.app)"
 [[ -z "${SITE_URL:-}" ]] && warn "Optional: set \$SITE_URL (used in redirects if referenced)"
 
 if [[ "$missing" == true ]]; then
@@ -175,7 +175,7 @@ npm run build
 # 7) Quick dev boot to ensure routes compile (optional)
 if [[ "${QUICK_DEV:-1}" == "1" ]]; then
   info "Starting dev server for a quick smoke test (CTRL+C to stop)…"
-  info "Open http://localhost:3000/signin and test Magic Link + Google → /overview"
+  info "Open https://app.trackfluence.app/signin and test Magic Link + Google → /overview"
   npm run dev
 else
   info "Validation finished. You can now run: npm run dev"

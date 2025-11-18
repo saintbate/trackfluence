@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
 import { exchangeCodeForToken, verifyAndConsumeState, saveTokenForAccount } from "@/lib/tiktok/oauth";
-import { TIKTOK_BASE } from "@/lib/env";
+import { TIKTOK_BASE, APP_URL } from "@/lib/env";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state") ?? "";
-  const site = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const site = APP_URL ?? "https://app.trackfluence.app";
 
   if (!code || !state) {
     return NextResponse.redirect(`${site}/settings/accounts?error=missing_code`);

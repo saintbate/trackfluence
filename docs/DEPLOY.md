@@ -35,7 +35,7 @@ SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
 DATABASE_URL=postgresql://user:password@host:port/database
 
 # NextAuth Configuration
-NEXTAUTH_URL=https://yourdomain.com
+NEXTAUTH_URL=https://app.trackfluence.app
 NEXTAUTH_SECRET=generate-with-openssl-rand-base64-32
 ```
 
@@ -85,9 +85,9 @@ IG_BUSINESS_ACCOUNT_ID=
 
 # TikTok Content API
 TIKTOK_APP_ID=
-TIKTOK_APP_SECRET=
-TIKTOK_API_BASE=https://business-api.tiktok.com
-TIKTOK_REDIRECT_URL=https://yourdomain.com/api/tiktok/oauth/callback
+TIKTOK_CLIENT_SECRET=
+TIKTOK_BASE=https://business-api.tiktok.com
+TIKTOK_REDIRECT=https://app.trackfluence.app/api/tiktok/oauth/callback
 TIKTOK_BUSINESS_ACCOUNT_ID=
 
 # Cron/Webhooks
@@ -401,7 +401,7 @@ Sentry also tracks:
 # .env.local
 NEXT_PUBLIC_SUPABASE_URL=http://localhost:54321
 SUPABASE_SERVICE_ROLE_KEY=dev-key
-NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_URL=https://app.trackfluence.app
 NEXTAUTH_SECRET=dev-secret
 ```
 
@@ -418,7 +418,7 @@ NEXTAUTH_URL=https://staging.yourdomain.com
 ```bash
 # Production values
 NEXT_PUBLIC_SUPABASE_URL=https://prod-project.supabase.co
-NEXTAUTH_URL=https://yourdomain.com
+NEXTAUTH_URL=https://app.trackfluence.app
 ```
 
 ## Security Checklist
