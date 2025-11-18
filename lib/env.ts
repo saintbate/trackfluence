@@ -67,43 +67,25 @@ export function envOrNull(key: keyof ParsedEnv): string | null {
 export const TIKTOK_ENABLED = (rawEnv.NEXT_PUBLIC_TIKTOK_ENABLED || "false").toLowerCase() === "true";
 
 type TikTokConfig = {
-  appId: string;
-  clientSecret: string;
-  redirect: string;
+  appId?: string;
+  clientSecret?: string;
+  redirect?: string;
   base: string;
   defaultAccountId?: string;
 };
 
 function parseTikTokConfig(): TikTokConfig | null {
-  const isBrowser = typeof window !== "undefined";
-  const missing: string[] = [];
-
-  const appId = (rawEnv.TIKTOK_APP_ID || "").trim();
-  if (!appId) missing.push("TIKTOK_APP_ID");
-
-  const clientSecret = (rawEnv.TIKTOK_CLIENT_SECRET || "").trim();
-  if (!clientSecret) missing.push("TIKTOK_CLIENT_SECRET");
-
-  const redirect = (rawEnv.TIKTOK_REDIRECT || "").trim();
-  if (!redirect) missing.push("TIKTOK_REDIRECT");
-
+  const appId = (rawEnv.TIKTOK_APP_ID || "").trim() || undefined;
+  const clientSecret = (rawEnv.TIKTOK_CLIENT_SECRET || "").trim() || undefined;
+  const redirect = (rawEnv.TIKTOK_REDIRECT || "").trim() || undefined;
   const base = (rawEnv.TIKTOK_BASE || "https://business-api.tiktok.com").trim();
+  const defaultAccountId = (rawEnv.TIKTOK_BUSINESS_ACCOUNT_ID || "").trim() || undefined;
 
-  if (missing.length > 0) {
-    // On the server, fail fast with a descriptive error so misconfigurations
-    // surface clearly during OAuth/init. In the browser bundle, avoid throwing
-    // at module evaluation time (env.ts is imported by client code such as GA).
-    if (!isBrowser) {
-      throw new Error(
-        `[env] Missing required TikTok OAuth env vars: ${missing.join(
-          ", "
-        )}. Please set them in your environment (e.g. .env.local or Vercel project settings).`
-      );
-    }
+  // If nothing is configured, treat TikTok as disabled;
+  // downstream callers (e.g. exchangeCodeForToken) will perform stricter checks.
+  if (!appId && !clientSecret && !redirect && !defaultAccountId) {
     return null;
   }
-
-  const defaultAccountId = (rawEnv.TIKTOK_BUSINESS_ACCOUNT_ID || "").trim() || undefined;
 
   return {
     appId,
