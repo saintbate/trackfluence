@@ -48,8 +48,12 @@ export default function SignInPage() {
         "Check your inbox for a magic link to sign in to your Trackfluence dashboard."
       );
       setEmail("");
-    } catch (err: any) {
-      setError(err.message || "Something went wrong. Please try again.");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || "Something went wrong. Please try again.");
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -72,8 +76,12 @@ export default function SignInPage() {
         throw error;
       }
       // Supabase will redirect to Google; no further action here.
-    } catch (err: any) {
-      setError(err.message || "Google sign-in failed. Please try again.");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || "Google sign-in failed. Please try again.");
+      } else {
+        setError("Google sign-in failed. Please try again.");
+      }
       setLoading(false);
     }
   }
