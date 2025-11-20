@@ -150,11 +150,17 @@ export default function LoginPage() {
 
         <p className="text-xs text-white/40 mt-6 text-center">
           By continuing, you agree to Trackfluence&apos;s{" "}
-          <a className="underline hover:text-white" href="/terms">
+          <a
+            className="underline hover:text-white"
+            href="https://trackfluence.app/terms"
+          >
             Terms
           </a>{" "}
           and{" "}
-          <a className="underline hover:text-white" href="/privacy-policy">
+          <a
+            className="underline hover:text-white"
+            href="https://trackfluence.app/privacy"
+          >
             Privacy Policy
           </a>
           .
