@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 
+const appUrl =
+  process.env.NEXT_PUBLIC_APP_URL ??
+  (typeof window !== "undefined" ? window.location.origin : "");
+
 export default function LoginPage() {
   const router = useRouter();
   const supabase = createClient();
@@ -20,11 +24,6 @@ export default function LoginPage() {
     })();
   }, [router, supabase]);
 
-  const callbackUrl =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/auth/callback`
-      : undefined;
-
   async function handleEmailSignIn(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
@@ -35,7 +34,7 @@ export default function LoginPage() {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: callbackUrl,
+          emailRedirectTo: appUrl ? `${appUrl}/auth/callback` : undefined,
         },
       });
 
@@ -67,7 +66,7 @@ export default function LoginPage() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: callbackUrl,
+          redirectTo: appUrl ? `${appUrl}/auth/callback` : undefined,
         },
       });
 
