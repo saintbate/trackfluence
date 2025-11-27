@@ -1,0 +1,12 @@
+{
+    "crons": [
+      {
+        "path": "/api/cron/tiktok-ingest",
+        "schedule": "0 2 * * *"
+      },
+      {
+        "path": "/api/cron/tiktok-refresh",
+        "schedule": "0 */6 * * *"
+      }
+    ]
+  }
