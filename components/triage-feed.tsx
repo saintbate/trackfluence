@@ -1,55 +1,83 @@
-import type { GrowthArchitectInsight } from "@/lib/ai/growth-architect";
-import { TriageCard } from "./triage-card";
+// components/triage-feed.tsx
 
-const MOCK_INSIGHTS: GrowthArchitectInsight[] = [
+type TriageMode = "green" | "yellow" | "red";
+
+type TriageItem = {
+  mode: TriageMode;
+  summary: string;
+  reasoning: string;
+  next_action: string;
+};
+
+const MOCK_ITEMS: TriageItem[] = [
   {
-    mode: "red",
-    summary:
-      "STOP spend on @CreatorA — $520 in spend, zero tracked revenue in the last 7 days.",
+    mode: "green",
+    summary: "Scale Creator A on winning hooks.",
     reasoning:
-      "Engagement looks decent on the surface, but clicks are near zero and comment quality suggests bots or misaligned audience.",
+      "Creator A holds the best ROAS and stable CPC over the last 30 days. Their latest hooks keep engagement high even as spend increases.",
     next_action:
-      "Pause all renewals with @CreatorA, reallocate that budget to the top 2 creators by ROAS, and re-evaluate their audience quality later.",
+      "Increase daily budget by ~25% on the top two ad groups and test one new creative that reuses the winning opening hook.",
   },
   {
     mode: "yellow",
-    summary:
-      "@CreatorB is driving strong interest but the landing page is leaking conversions.",
+    summary: "Fix drop-off on cart visitors.",
     reasoning:
-      "Swipe-through and click metrics are healthy, but too few visitors reach checkout. The drop-off suggests a slow page or confusing hero section.",
+      "Swipe-through and click metrics are healthy, but too few visitors reach checkout. The drop-off suggests a slow page or weak cart reminder.",
     next_action:
-      "Run a simple A/B: shorten the hero copy, move the main CTA above the fold, and test a risk-reversal line like "30-day money-back guarantee."",
+      "Run a simple A/B: shorten the hero copy, move the main CTA above the fold, and test a risk-reversal line like “30-day money-back guarantee.”",
   },
   {
-    mode: "green",
-    summary:
-      "@CreatorC is profitably driving customers well below target CPA.",
+    mode: "red",
+    summary: "Pause under-performing Creator C.",
     reasoning:
-      "Their content format matches your ideal customer, and the comments show real purchase intent plus social proof.",
+      "ROAS has stayed under 1.0 for 7 days in a row even after multiple creative swaps. Further spend is unlikely to recover performance.",
     next_action:
-      "Lock in @CreatorC with a 2–3 month ambassador deal and allocate an extra 25–50% budget to their next two campaigns while monitoring ROAS.",
+      "Pause remaining spend on this creator and re-allocate to your top two performers while you rebuild the brief and creative strategy.",
   },
 ];
 
-export async function TriageFeed() {
-  const insights = MOCK_INSIGHTS;
+function modeStyles(mode: TriageMode) {
+  switch (mode) {
+    case "green":
+      return "border-emerald-500/70 bg-emerald-950/40";
+    case "yellow":
+      return "border-amber-400/70 bg-amber-950/40";
+    case "red":
+      return "border-red-500/70 bg-red-950/40";
+    default:
+      return "border-zinc-700/70 bg-zinc-950/40";
+  }
+}
 
+export default function TriageFeed() {
   return (
     <section className="space-y-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold tracking-wide text-zinc-300">
-          Triage Feed
-        </h2>
-        <p className="text-xs text-zinc-500">
-          Prioritized actions based on your current performance.
+        <h3 className="text-sm font-semibold text-zinc-100">
+          Triage Feed · Preview
+        </h3>
+        <p className="text-[11px] uppercase tracking-[0.2em] text-zinc-500">
+          Example output
         </p>
       </div>
-      <div className="space-y-2.5">
-        {insights.map((insight, idx) => (
-          <TriageCard key={idx} insight={insight} />
-        ))}
-      </div>
+
+      {MOCK_ITEMS.map((item, idx) => (
+        <article
+          key={idx}
+          className={`rounded-2xl border px-4 py-3 text-sm text-zinc-100 ${modeStyles(
+            item.mode
+          )}`}
+        >
+          <p className="font-medium">{item.summary}</p>
+          <p className="mt-1 text-xs text-zinc-400">{item.reasoning}</p>
+          <p className="mt-2 text-xs">
+            <span className="font-semibold text-emerald-300">
+              Next action:{" "}
+            </span>
+            {item.next_action}
+          </p>
+        </article>
+      ))}
     </section>
   );
 }
-

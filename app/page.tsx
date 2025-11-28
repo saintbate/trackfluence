@@ -1,5 +1,5 @@
-import { MorningBrief } from "@/components/morning-brief";
-import { TriageFeed } from "@/components/triage-feed";
+import MorningBrief from "@/components/morning-brief";
+import TriageFeed from "@/components/triage-feed";
 
 export default async function HomePage() {
   return (
