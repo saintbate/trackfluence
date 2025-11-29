@@ -7,6 +7,10 @@
       {
         "path": "/api/cron/tiktok-refresh",
         "schedule": "0 */6 * * *"
+      },
+      {
+        "path": "/api/email/weekly?secret=${CRON_SECRET}",
+        "schedule": "0 8 * * 1"
       }
     ]
   }

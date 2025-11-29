@@ -2,13 +2,21 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { LayoutGrid, Megaphone, Users, Settings } from "lucide-react";
+import { LayoutGrid, Megaphone, Users, Settings, FlaskConical } from "lucide-react";
 import type { Route } from "next";
+import { isDemoSearchParam, appendDemoParam } from "@/lib/demo-mode";
+
 export default function Sidebar() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [open, setOpen] = useState(true);
+
+  // Check if we're in demo mode
+  const isDemo = isDemoSearchParam(
+    Object.fromEntries(searchParams.entries())
+  );
 
   useEffect(() => {
     const saved = typeof window !== "undefined" ? localStorage.getItem("tf-sidebar") : null;
@@ -21,7 +29,8 @@ export default function Sidebar() {
     localStorage.setItem("tf-sidebar", next ? "open" : "closed");
   }
 
-  const nav: { href: Route; label: string; icon: typeof LayoutGrid }[] = [
+  // Navigation items - demo param will be appended when in demo mode
+  const nav = [
     { href: "/overview", label: "Overview", icon: LayoutGrid },
     { href: "/campaigns", label: "Campaigns", icon: Megaphone },
     { href: "/influencers", label: "Influencers", icon: Users },
@@ -30,7 +39,12 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className={`h-full border-r border-slate-200/60 bg-white dark:border-slate-800/60 dark:bg-slate-950 transition-all ${open ? "w-60" : "w-14"}`} aria-label="Primary">
+    <aside
+      className={`h-full border-r border-slate-200/60 bg-white dark:border-slate-800/60 dark:bg-slate-950 transition-all ${
+        open ? "w-60" : "w-14"
+      }`}
+      aria-label="Primary"
+    >
       <div className="flex h-14 items-center justify-between px-3">
         <button
           type="button"
@@ -41,15 +55,27 @@ export default function Sidebar() {
         >
           {open ? "Collapse" : "Open"}
         </button>
+
+        {/* Demo indicator in sidebar */}
+        {isDemo && open && (
+          <span className="flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium text-amber-500">
+            <FlaskConical className="h-3 w-3" />
+            Demo
+          </span>
+        )}
       </div>
+
       <nav id="sidebar-nav" className="mt-2 space-y-1 px-2">
         {nav.map((item) => {
           const Icon = item.icon;
           const active = pathname?.startsWith(item.href);
+          // Append demo param if in demo mode
+          const href = appendDemoParam(item.href, isDemo);
+
           return (
             <Link
               key={item.href}
-              href={item.href}
+              href={href as Route}
               className={`group flex items-center gap-3 rounded-md px-2 py-2 text-sm transition ${
                 active
                   ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-200"
@@ -64,8 +90,19 @@ export default function Sidebar() {
           );
         })}
       </nav>
+
+      {/* Try Demo Link when not in demo mode */}
+      {!isDemo && open && (
+        <div className="mt-6 px-2">
+          <Link
+            href="/overview?demo=1"
+            className="flex items-center gap-2 rounded-md border border-dashed border-amber-500/30 bg-amber-500/5 px-3 py-2 text-xs text-amber-600 transition hover:bg-amber-500/10 dark:text-amber-400"
+          >
+            <FlaskConical className="h-3.5 w-3.5" />
+            <span>Try demo mode</span>
+          </Link>
+        </div>
+      )}
     </aside>
   );
 }
-
-

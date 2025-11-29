@@ -1,15 +1,20 @@
 // components/triage-feed.tsx
 
+import { FlaskConical } from "lucide-react";
+import type { GrowthArchitectInsight } from "@/lib/ai/growth-architect";
+
 type TriageMode = "green" | "yellow" | "red";
 
-type TriageItem = {
-  mode: TriageMode;
-  summary: string;
-  reasoning: string;
-  next_action: string;
+type TriageItem = GrowthArchitectInsight;
+
+type TriageFeedProps = {
+  /** When provided, displays actual triage items. Otherwise shows placeholder. */
+  items?: TriageItem[] | null;
+  /** Whether demo mode is active */
+  isDemo?: boolean;
 };
 
-const MOCK_ITEMS: TriageItem[] = [
+const PLACEHOLDER_ITEMS: TriageItem[] = [
   {
     mode: "green",
     summary: "Scale Creator A on winning hooks.",
@@ -24,7 +29,7 @@ const MOCK_ITEMS: TriageItem[] = [
     reasoning:
       "Swipe-through and click metrics are healthy, but too few visitors reach checkout. The drop-off suggests a slow page or weak cart reminder.",
     next_action:
-      "Run a simple A/B: shorten the hero copy, move the main CTA above the fold, and test a risk-reversal line like “30-day money-back guarantee.”",
+      'Run a simple A/B: shorten the hero copy, move the main CTA above the fold, and test a risk-reversal line like "30-day money-back guarantee."',
   },
   {
     mode: "red",
@@ -49,19 +54,37 @@ function modeStyles(mode: TriageMode) {
   }
 }
 
-export default function TriageFeed() {
+export default function TriageFeed({ items, isDemo = false }: TriageFeedProps) {
+  const displayItems = items ?? PLACEHOLDER_ITEMS;
+  const isPlaceholder = !items;
+
   return (
     <section className="space-y-3">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-zinc-100">
-          Triage Feed · Preview
-        </h3>
-        <p className="text-[11px] uppercase tracking-[0.2em] text-zinc-500">
-          Example output
-        </p>
+        <div className="flex items-center gap-2">
+          <h3 className="text-sm font-semibold text-zinc-100">
+            Triage Feed {isPlaceholder && !isDemo ? "· Preview" : ""}
+          </h3>
+          {isDemo && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium text-amber-400">
+              <FlaskConical className="h-2.5 w-2.5" />
+              Demo
+            </span>
+          )}
+        </div>
+        {isPlaceholder && !isDemo && (
+          <p className="text-[11px] uppercase tracking-[0.2em] text-zinc-500">
+            Example output
+          </p>
+        )}
+        {isDemo && (
+          <p className="text-[10px] text-amber-500/70">
+            Based on sample data
+          </p>
+        )}
       </div>
 
-      {MOCK_ITEMS.map((item, idx) => (
+      {displayItems.map((item, idx) => (
         <article
           key={idx}
           className={`rounded-2xl border px-4 py-3 text-sm text-zinc-100 ${modeStyles(
