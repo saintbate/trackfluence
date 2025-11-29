@@ -122,8 +122,11 @@ export default function ProductPage() {
             <li>Creator metrics and charts tailored for TikTok campaigns.</li>
           </ul>
           <div className="pt-2">
-            <CTAButton href="#get-access">Get Access</CTAButton>
+            <CTAButton href="/pricing">Get Access</CTAButton>
           </div>
+          <p className="mt-2 text-[11px] text-emerald-300/70">
+            Founding User cohort now open — 30% off for life for the first 100 users.
+          </p>
           <p className="text-[11px] text-slate-400">
             Already using Trackfluence?{" "}
             <a

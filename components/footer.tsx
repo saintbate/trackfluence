@@ -7,6 +7,7 @@ const MARKETING_PATHS = [
   "/",
   "/product",
   "/how-it-works",
+  "/pricing",
   "/about",
   "/terms",
   "/privacy",
@@ -59,7 +60,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/#pricing" className="hover:text-white">
+                <Link href="/pricing" className="hover:text-white">
                   Pricing
                 </Link>
               </li>

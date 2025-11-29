@@ -97,7 +97,10 @@ export default function HowItWorksPage() {
               Ship dashboards that leadership understands in the first meeting.
             </li>
           </ul>
-          <CTAButton href="#get-access">Talk to the team</CTAButton>
+          <CTAButton href="/pricing">Talk to the team</CTAButton>
+          <p className="mt-2 text-[11px] text-emerald-300/70">
+            Founding User cohort now open — 30% off for life for the first 100 users.
+          </p>
         </div>
 
         <div className="space-y-4 rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 via-white/5 to-black/70 p-6 shadow-2xl shadow-sky-900/50">
